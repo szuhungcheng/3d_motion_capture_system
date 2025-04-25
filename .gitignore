@@ -1,0 +1,16 @@
+echo "__pycache__/
+*.pyc
+*.h5
+*.mp4
+*.avi
+*.json
+*.csv
+*.zip
+output_*/
+input_*/
+calibration_frames/
+*.log
+*.pth
+*.onnx
+venv/
+.env" > .gitignore
