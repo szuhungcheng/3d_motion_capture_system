@@ -135,7 +135,7 @@ Imagine you’re analyzing gait stability in patients post-stroke or optimizing 
 
 ## 👤 Author
 
-Developed by [Cheng, Szu-Hung](https://github.com/Mars-Zheng),  
+Developed by [Cheng, Szu-Hung](https://github.com/Mars-Zheng)
 Sports Science Engineer | Biomechanics Strategist | Boxing Athlete  
 Passionate about fusing **ecological psychology**, **movement intelligence**, and **technology**.
 
@@ -143,5 +143,5 @@ Passionate about fusing **ecological psychology**, **movement intelligence**, an
 
 ## 📫 Contact
 
-If you’re a researcher, coach, or company interested in customized motion analysis systems, feel free to open an issue or reach out via [email](eric14209@gmail.com).
+If you’re a researcher, coach, or company interested in customized motion analysis systems, feel free to open an issue or reach out via email: eric14209@gmail.com.
 
