@@ -15,13 +15,10 @@ Designed with clinical and sports applications in mind, this system enables rese
 
 ## 📁 Project Structure
 
-
-
 ---
 
 ## 🔧 System Requirements
 
-- **OS**: Windows 10 or Linux (Ubuntu preferred for Anipose)
 - **Python**: 3.9–3.11
 - **Hardware**: 
   - Laptop with sufficient USB bandwidth
@@ -44,7 +41,7 @@ Records synchronized videos from **three USB webcams** using parallel threads. P
 ### 🧩 Step 2.1 — Camera Calibration  
 `step2_1_get_calibration_file.py`
 
-Captures a calibration video with a printed **chessboard pattern** visible to all cameras. The script extracts calibration frames. You must modify parameters according to your chessboard size (e.g., square size in cm, rows/columns count).
+Captures relative positions between all cameras with a printed **chessboard** visible to all cameras. The script extracts calibration frames. You must modify parameters according to your chessboard size (e.g., square size in cm, rows/columns count).
 
 ---
 
@@ -130,7 +127,7 @@ Imagine you’re analyzing gait stability in patients post-stroke or optimizing 
 
 ## 📜 License & Credits
 
-- **System Code**: MIT License (or your chosen license)
+- **System Code**: MIT License
 - **2D Pose**: [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose), released under their license
 - **3D Reconstruction**: [Anipose](https://github.com/lambdaloop/anipose), free and open-source
 
@@ -138,7 +135,7 @@ Imagine you’re analyzing gait stability in patients post-stroke or optimizing 
 
 ## 👤 Author
 
-Developed by [Cheng, Szu-Hung](https://github.com/your-username),  
+Developed by [Cheng, Szu-Hung](https://github.com/Mars-Zheng),  
 Sports Science Engineer | Biomechanics Strategist | Boxing Athlete  
 Passionate about fusing **ecological psychology**, **movement intelligence**, and **technology**.
 
@@ -146,5 +143,5 @@ Passionate about fusing **ecological psychology**, **movement intelligence**, an
 
 ## 📫 Contact
 
-If you’re a researcher, coach, or company interested in customized motion analysis systems, feel free to open an issue or reach out via email / LinkedIn.
+If you’re a researcher, coach, or company interested in customized motion analysis systems, feel free to open an issue or reach out via [email](eric14209@gmail.com).
 
