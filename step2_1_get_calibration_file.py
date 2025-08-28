@@ -4,9 +4,9 @@ from aniposelib.cameras import Camera, CameraGroup
 from aniposelib.utils import load_pose2d_fnames
 import datetime
 
-vidnames = [['output_person_000_chess_board_cam1_2025-04-24_16-27-57.mp4'],
-           ['output_person_000_chess_board_cam2_2025-04-24_16-27-57.mp4'],
-           ['output_person_000_chess_board_cam3_2025-04-24_16-27-57.mp4']]
+vidnames = [['output_person_001_chess_board_cam1_2025-08-25_17-08-06.avi'],
+           ['output_person_001_chess_board_cam2_2025-08-25_17-08-06.avi'],
+           ['output_person_001_chess_board_cam3_2025-08-25_17-08-06.avi']]
 
 cam_names = ['A', 'B', 'C']
 

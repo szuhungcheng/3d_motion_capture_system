@@ -8,7 +8,7 @@ from aniposelib.cameras import CameraGroup
 from aniposelib.utils import load_pose2d_fnames
 
 # --- SETTINGS ---
-h5_folder = r'C:\Users\USER\OneDrive\Desktop_20250211_after_reset\康舒_motion\joints_h5_files'
+h5_folder = r"C:\Users\USER\OneDrive\Desktop_20250211_after_reset\github_repository\3d_motion_capture_system\joints_h5_files"
 calibration_file = 'calibration.toml'
 output_folder = 'output_3d_data'
 score_threshold = 0.5

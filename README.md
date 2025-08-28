@@ -1,25 +1,62 @@
-# 3D Motion Capture System: From Webcam to 3D Biomechanical Analysis
+# 3D Motion Capture System: From Webcam to 3D Biomechanical Data
 
-This repository presents a modular 3D motion capture system that uses three consumer-grade webcams to perform full-body 3D joint reconstruction, leveraging state-of-the-art tools including [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose) for 2D keypoint detection and [Anipose](https://anipose.org/) for multi-view triangulation.
+# Statement
+This repository presents a modular 3D motion capture system that uses three webcams to perform full-body 3D joint reconstruction, leveraging state-of-the-art tools including [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose) for 2D keypoint detection and [Anipose](https://anipose.org/) for multi-view triangulation.
 
-Designed with clinical and sports applications in mind, this system enables researchers and practitioners to:
 
-- Efficiently record synchronized video data across three cameras
-- Perform accurate intrinsic/extrinsic camera calibration
-- Detect 2D joint keypoints robustly using pretrained deep learning models
-- Reconstruct 3D motion trajectories from multi-view 2D joint data
-- Analyze joint motion for clinical and sports performance assessment
-- Generate interactive 3D animations for visualization and feedback
+---
+## 📁 Project Content
+---
+
+### `step1_get_video_webcam_version_3_camera.py`
+
+Records synchronized videos from **three USB webcams** using parallel threads. Press `r` to begin recording.
+
+> ⚠ Frame drop may occur based on your hardware I/O capacity — USB 3.0 preferred.
 
 ---
 
-## 📁 Project Structure
+### `step2_1_get_calibration_file.py`
+
+Captures relative positions between all cameras with a printed **chessboard** visible to all cameras. You must modify parameters according to your chessboard size (e.g., square size in cm, rows/columns count), or you can use the attached chessboard.jpg and preset parameters in this repository.
 
 ---
+
+### `step2_2_get_skeleton_video_and_json_csv.py`
+
+This script wraps the **AlphaPose** detector. You must:
+- download AlphaPose manually: https://github.com/MVIG-SJTU/AlphaPose
+- Set the appropriate local paths inside this script
+- Provide input videos captured from step 1
+
+It outputs:
+- 2D Overlaid skeleton video clips
+- 2D `.json` and `.csv` joint coordinates
+- 2D `.h5` file formatted for Anipose (vital for 3D reconstruction)
+
+---
+
+### `step3_get_3d_data.py`
+
+Uses **Anipose**'s triangulation pipeline to reconstruct 3D motion data by aligning multi-view 2D joint detections via epipolar geometry.
+
+- Uses camera calibration (`camera_calibration.yaml`)
+- Input: `.h5` joint data
+- Output: `.csv` file containing 3D data for each joint across time
+
+Make sure your camera order and calibration labels are consistent.
+
+---
+
+### `step4_visualization.py`
+
+Uses plotly to visualize and check 3D data quickly 
+
+
 
 ## 🔧 System Requirements
 
-- **Python**: 3.9–3.11
+- **Python**: 3.9
 - **Hardware**: 
   - Laptop with sufficient USB bandwidth
   - Three standard USB webcams (e.g., Logitech C920)
@@ -27,12 +64,13 @@ Designed with clinical and sports applications in mind, this system enables rese
 
 ---
 
-## 🚦 Pipeline Overview
+
+## 🚦 Instructions
 
 ### 🔴 Step 1 — Webcam Video Recording  
 `step1_get_video_webcam_version_3_camera.py`
 
-Records synchronized videos from **three USB webcams** using parallel threads. Press `r` to begin recording.
+Records synchronized videos from **three USB webcams** using parallel threads. You would get synchronized videos in different folders.
 
 > ⚠ Frame drop may occur based on your hardware I/O capacity — USB 3.0 preferred.
 
@@ -41,89 +79,27 @@ Records synchronized videos from **three USB webcams** using parallel threads. P
 ### 🧩 Step 2.1 — Camera Calibration  
 `step2_1_get_calibration_file.py`
 
-Captures relative positions between all cameras with a printed **chessboard** visible to all cameras. The script extracts calibration frames. You must modify parameters according to your chessboard size (e.g., square size in cm, rows/columns count).
-
+Use several chessboard videos to get the extrinsic parameters (relative positions and directions between cameras). The output here would be `calibration.toml`, a file contained intrinsic and extrinsic parameters between cameras. We suggest that the error from the matrix lower than 0.3 is appropriated.
 ---
 
 ### 🧍 Step 2.2 — 2D Joint Detection (AlphaPose)  
 `step2_2_get_skeleton_video_and_json_csv.py`
 
-This script wraps the **AlphaPose** detector. You must:
-- Clone AlphaPose manually: https://github.com/MVIG-SJTU/AlphaPose
-- Set the appropriate local paths inside this script
-- Provide input videos captured from step 1
-
-It outputs:
-- Overlaid skeleton video clips
-- `.json` and `.csv` joint coordinates
-- `.h5` file formatted for Anipose (vital for 3D reconstruction)
-
-AlphaPose is a deep learning–based top-down pose estimator, with strong robustness for human body joints under varying conditions.
+Detect 2D joints for each videos. output file have several types in distinct folder: skeleton videos, json files, csv files, and h5 files about 2d joint positions
 
 ---
 
 ### 🧊 Step 3 — 3D Reconstruction with Anipose  
 `step3_get_3d_data.py`
 
-Uses **Anipose**'s triangulation pipeline to reconstruct 3D motion trajectories by aligning multi-view 2D joint detections via epipolar geometry.
+Integrate same set of 2D h5 files for triangulation to reconstruct 3D motion data by aligning multi-view 2D joint detections via parameters in `calibration.toml`. You would get 3D joint position CSV files for each set of 2D data.
 
-- Uses camera calibration (`camera_calibration.yaml`)
-- Input: `.h5` joint data
-- Output: `.csv` file containing 3D coordinates for each joint across time
 
-Make sure your camera order and calibration labels are consistent.
+
+Make sure your camera fixed and calibration labels are consistent in the real chessboard and size in the code.
 
 ---
 
-### 📊 Step 4 — Parameter Analysis  
-`step4_analysis_parameters_calcualte.py`
-
-This script computes **key biomechanical or clinical parameters** from the 3D data, including:
-
-- Joint range of motion (ROM)
-- Displacement symmetry
-- Sway patterns
-- Temporal events (e.g., peak velocity timing)
-
-Parameters are selected in consultation with a licensed physical therapist.
-
----
-
-### 🎥 Step 5 — Visualization  
-`step5_visualization.py`
-
-Generates a **3D animation in HTML format** using Plotly or similar. You can open the animation in any modern web browser and explore the 3D joint trajectories interactively.
-
-Used for both:
-- Internal validation (debugging geometry or timing)
-- External reports or feedback (clinical or athlete review)
-
----
-
-## 🧪 Example Use Case
-
-Imagine you’re analyzing gait stability in patients post-stroke or optimizing lower-limb coordination for boxers. This system lets you:
-- Record a sparring or rehab session from 3 angles
-- Detect motion with AlphaPose
-- Reconstruct 3D dynamics
-- Quantify asymmetry or instability
-- Provide animated feedback to patients/athletes
-
----
-
-## 📂 Recommended Folder Layout
-
-
----
-
-## 📌 Notes and Best Practices
-
-- Use **tripods** to keep cameras static.
-- Avoid occlusions in camera placement.
-- Sync camera clocks or record visual clap for alignment.
-- Lighting consistency matters — AlphaPose is good, but not magic.
-
----
 
 ## 📜 License & Credits
 

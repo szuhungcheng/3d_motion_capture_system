@@ -8,13 +8,13 @@ import gc
 import json
 
 """
-影片錄製0:校正板
-影片錄製1:neck side bending
-影片錄製2:neck flexion/extension
-影片錄製3:shoulder elevation
-影片錄製4:trunk side bending
-影片錄製5:trunk flexion/extension
-影片錄製6:DSWAO
+record_video_0:chess_board
+record_video_1:neck side bending
+record_video_2:neck flexion/extension
+record_video_3:shoulder elevation
+record_video_4:trunk side bending
+record_video_5:trunk flexion/extension
+record_video_6:DSWAO
 """
 video_dictionary = {
     "0": "chess_board",
@@ -50,28 +50,28 @@ def sanitize_filename(name):
     return re.sub(r'[\\/:"*?<>|]+', "_", name)
 
 def choose_video_type_and_id():
-    pid = input("請輸入受試者編號（例如 1）：")
+    pid = input("enter subject number（example: 1）：")
     person_id = f"person_{pid.zfill(3)}"
-    print("請按下要錄製的影片類型:\n0=chessboard\n1=neck side bending\n2=trunk side bending\n3=shoulder elevation\n4=DSWAO\n5=neck flexion/extension\n6=trunk flexion/extension")
+    print("enter the type of videos for recording:\n0=chessboard\n1=neck side bending\n2=trunk side bending\n3=shoulder elevation\n4=DSWAO\n5=neck flexion/extension\n6=trunk flexion/extension")
     k = input()
     if k not in video_dictionary:
-        print("⚠ 錯誤的輸入，請重新執行程式。")
+        print("⚠ failed input, restart the code")
         exit()
     else:
-        print("現在要錄製的影片為:", video_dictionary[k])
+        print("the type of recording videos is:", video_dictionary[k])
     
     return video_dictionary[k],person_id 
 #返回一個影片類型變數和受測者編號變數
 
 
 def choose_video_type_only():
-    print("請按下要錄製的影片類型:\n0=chessboard\n1=neck side bending\n2=trunk side bending\n3=shoulder elevation\n4=DSWAO\n5=neck flexion/extension\n6=trunk flexion/extension")
+    print("enter the type of videos for recording:\n0=chessboard\n1=neck side bending\n2=trunk side bending\n3=shoulder elevation\n4=DSWAO\n5=neck flexion/extension\n6=trunk flexion/extension")
     k = input()
     if k not in video_dictionary:
-        print("⚠ 錯誤的輸入，請重新執行程式。")
+        print("⚠ failed input, restart the code")
         exit()
     else:
-        print("現在要錄製的影片為:", video_dictionary[k])
+        print("the type of recording videos is:", video_dictionary[k])
     return video_dictionary[k] 
 #返回一個影片類型變數
 
@@ -82,7 +82,7 @@ def start_recording(vt, person_id):
     folder_name = f"{person_id}_{safe_vt}_{timestamp}"
     save_folder = os.path.join(base_folder, folder_name)
     os.makedirs(save_folder, exist_ok=True)
-    print("📁 建立資料夾：", save_folder)
+    print("📁 create the svae folder：", save_folder)
 
     recording_flag = threading.Event()
     caps = [cv2.VideoCapture(i, cv2.CAP_DSHOW) for i in camera_indices]
@@ -181,7 +181,7 @@ def start_recording(vt, person_id):
                     try:
                         metadata_list = json.load(f)
                     except json.JSONDecodeError:
-                        print("⚠ metadata.json 內容損壞，將重新初始化。")
+                        print("⚠ metadata.json was broken, please restart")
                         metadata_list = []
             else:
                 metadata_list = []
@@ -207,13 +207,13 @@ vt,person_id = choose_video_type_and_id()
 start_recording(vt,person_id)
 
 while True:
-    print("是否同一受試者繼續錄影？(y/n)")
+    print("record same subject or not？(y/n)")
     choice = input().strip().lower()
     if choice == 'y':
         vt2= choose_video_type_only()
         start_recording(vt2,person_id)
     elif choice == 'n':
-        print(person_id+",錄影結束！")
+        print(person_id+",recording finish")
         break
     else:
-        print("⚠ 無效的選擇，請輸入 'y' 或 'n'。")
+        print("⚠failed input, 'y' or 'n' only 'y' 或 'n'。")

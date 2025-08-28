@@ -1,16 +1,29 @@
-echo "__pycache__/
+# Python cache
+__pycache__/
 *.pyc
+ECHO 已啟動。
+# Data / model outputs
 *.h5
-*.mp4
-*.avi
+*.pth
+*.onnx
 *.json
 *.csv
 *.zip
+*.log
+ECHO 已啟動。
+# Videos
+*.mp4
+*.avi
+ECHO 已啟動。
+# Generated folders
 output_*/
 input_*/
 calibration_frames/
-*.log
-*.pth
-*.onnx
+ECHO 已啟動。
+# Virtual environments
+.venv/
 venv/
-.env" > .gitignore
+env/
+ENV/
+3d_motion_capture_system/
+.env
